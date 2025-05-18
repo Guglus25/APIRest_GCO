@@ -1,19 +1,88 @@
 package com.apirestgco.apirest_gco.Controllers;
 
-import java.util.concurrent.atomic.AtomicLong;
-
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.apirestgco.apirest_gco.Models.ProductsModel;
+import com.apirestgco.apirest_gco.Services.ProductsService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
+@RequestMapping("/product")
 public class ProductsController {
-    private final AtomicLong counter = new AtomicLong();
+    @Autowired
+    ProductsService productsService;
 
-    @GetMapping("/product")
-    public ProductsModel getMethodName(@RequestParam(value = "nombre", defaultValue = "Cristian") String nombre) {
-        return new ProductsModel(counter.incrementAndGet(), nombre);
+    @GetMapping
+    public ResponseEntity<?> getMethodName() {
+        try {
+            List<ProductsModel> Products = productsService.findAllProduct();
+            return new ResponseEntity<List<ProductsModel>>(Products, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getCause().toString(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
+
+        @GetMapping(value = "/{id}")
+    public ResponseEntity<?> findProductid(@PathVariable("id") Long id) {
+        try {
+            ProductsModel Products = productsService.findById(id);
+            if (Products!=null) {
+                return new ResponseEntity<ProductsModel>(Products, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<String>("Producto no encontrado", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getCause().toString(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<?> postMethodName(@RequestBody ProductsModel entity) {
+        try {
+            productsService.saveProducts(entity);
+            return new ResponseEntity<ProductsModel>(entity, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getCause().toString(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> updateProduct(@PathVariable long id, @RequestBody ProductsModel Product) {
+        try {
+            ProductsModel ProductSave = productsService.updateProducts(id, Product);
+            return new ResponseEntity<ProductsModel>(ProductSave, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getCause().toString(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
+        try {
+            productsService.deleteProducts(id);
+            return new ResponseEntity<String>("Fue eliminado", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getCause().toString(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
