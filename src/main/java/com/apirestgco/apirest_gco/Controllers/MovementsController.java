@@ -1,48 +1,51 @@
 package com.apirestgco.apirest_gco.Controllers;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.apirestgco.apirest_gco.Models.MovementsModel;
+import com.apirestgco.apirest_gco.Services.MovementsService;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.apirestgco.apirest_gco.Models.ProductsModel;
-import com.apirestgco.apirest_gco.Services.ProductsService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/product")
-public class ProductsController {
+@RequestMapping("/movement")
+public class MovementsController {
+
     @Autowired
-    ProductsService productsService;
+    MovementsService movementService;
 
     @GetMapping
-    public ResponseEntity<?> getfindProduct() {
+    public ResponseEntity<?> getfindMovements() {
         try {
-            List<ProductsModel> Products = productsService.findAllProduct();
-            return new ResponseEntity<List<ProductsModel>>(Products, HttpStatus.OK);
+            List<MovementsModel> movements = movementService.findAllMovements();
+            return new ResponseEntity<List<MovementsModel>>(movements, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> findProductid(@PathVariable("id") Long id) {
+    public ResponseEntity<?> getfindMovementsByid(@PathVariable("id") Long id) {
         try {
-            ProductsModel Products = productsService.findById(id);
-            if (Products != null) {
-                return new ResponseEntity<ProductsModel>(Products, HttpStatus.OK);
+            MovementsModel movement = movementService.findById(id);
+            if (movement != null) {
+                return new ResponseEntity<MovementsModel>(movement, HttpStatus.OK);
             } else {
-                return new ResponseEntity<String>("Producto no encontrado", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<String>("Movimiento no encontrado", HttpStatus.NOT_FOUND);
             }
+
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
@@ -50,10 +53,10 @@ public class ProductsController {
     }
 
     @PostMapping
-    public ResponseEntity<?> postProducts(@RequestBody ProductsModel entity) {
+    public ResponseEntity<?> postMovements(@RequestBody MovementsModel entity) {
         try {
-            productsService.saveProducts(entity);
-            return new ResponseEntity<ProductsModel>(entity, HttpStatus.CREATED);
+            movementService.saveMovements(entity);
+            return new ResponseEntity<MovementsModel>(entity, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,10 +65,11 @@ public class ProductsController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable long id, @RequestBody ProductsModel Product) {
+    public ResponseEntity<?> putMovements(@PathVariable("id") Long id, @RequestBody MovementsModel entity) {
         try {
-            ProductsModel ProductSave = productsService.updateProducts(id, Product);
-            return new ResponseEntity<ProductsModel>(ProductSave, HttpStatus.OK);
+            MovementsModel movement = movementService.updateMovements(id, entity);
+            return new ResponseEntity<MovementsModel>(movement, HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
                     HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,10 +77,11 @@ public class ProductsController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<?> deleteMovements(@PathVariable("id") Long id) {
         try {
-            productsService.deleteProducts(id);
+            movementService.deleteMovements(id);
             return new ResponseEntity<String>("Fue eliminado", HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
                     HttpStatus.INTERNAL_SERVER_ERROR);

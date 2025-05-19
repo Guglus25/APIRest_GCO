@@ -2,7 +2,7 @@ package com.apirestgco.apirest_gco.Services;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import com.apirestgco.apirest_gco.Repositories.ProductsRepository;
 
 @Service
 public class ProductsService implements IProductsService {
+    
     @Autowired
     ProductsRepository productsRepository;
 
@@ -27,7 +28,6 @@ public class ProductsService implements IProductsService {
     @Override
     public void deleteProducts(Long id) {
         productsRepository.deleteById(id);
-
     }
 
     @Override
