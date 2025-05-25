@@ -1,19 +1,25 @@
 package com.apirestgco.apirest_gco.Services;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.apirestgco.apirest_gco.Models.MovementsModel;
 import com.apirestgco.apirest_gco.Models.ProductsModel;
+import com.apirestgco.apirest_gco.Repositories.MovementsRepository;
 import com.apirestgco.apirest_gco.Repositories.ProductsRepository;
 
 @Service
 public class ProductsService implements IProductsService {
-    
+
     @Autowired
     ProductsRepository productsRepository;
+    @Autowired
+    MovementsRepository movementsRepository;
 
     @Override
     public List<ProductsModel> findAllProduct() {
@@ -32,7 +38,18 @@ public class ProductsService implements IProductsService {
 
     @Override
     public ProductsModel saveProducts(ProductsModel products) {
-        return productsRepository.save(products);
+        ProductsModel dataProduc = productsRepository.save(products);
+        if (dataProduc != null) {
+            MovementsModel dataMovem = new MovementsModel();
+            dataMovem.setIdProducto(products.getId());
+            dataMovem.setDescripcion("Ingreso por primera vez");
+            dataMovem.setCantidad(products.getStock());
+            dataMovem.setTipo("Entrada");
+            dataMovem.setFecha(new Date());
+
+            movementsRepository.save(dataMovem);
+        }        
+        return dataProduc;
     }
 
     @Override

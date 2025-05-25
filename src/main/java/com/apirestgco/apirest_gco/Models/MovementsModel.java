@@ -25,4 +25,5 @@ public class MovementsModel {
     private Integer cantidad;
     private Date fecha;
     private String descripcion;
+
 }

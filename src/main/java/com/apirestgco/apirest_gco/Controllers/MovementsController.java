@@ -29,10 +29,10 @@ public class MovementsController {
     @Autowired
     MovementsService movementService;
 
-    @GetMapping(value = "/{idProducto}")
-    public ResponseEntity<?> getfindMovements(@PathVariable("idProducto")Long idProducto) {
+    @GetMapping(value = "/product/{idproducto}")
+    public ResponseEntity<?> getfindMovements(@PathVariable("idproducto")Long idproducto) {
         try {
-            List<MovementsModel> movements = movementService.findAllMovements(idProducto);
+            List<MovementsModel> movements = movementService.findAllMovements(idproducto);
             return new ResponseEntity<List<MovementsModel>>(movements, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
