@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.apirestgco.apirest_gco.Models.MovementsModel;
 import com.apirestgco.apirest_gco.Services.MovementsService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,15 +23,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/movement")
+@CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Movement Management", description = "Controllers Movements")
 public class MovementsController {
-
     @Autowired
     MovementsService movementService;
 
-    @GetMapping
-    public ResponseEntity<?> getfindMovements() {
+    @GetMapping(value = "/{idProducto}")
+    public ResponseEntity<?> getfindMovements(@PathVariable("idProducto")Long idProducto) {
         try {
-            List<MovementsModel> movements = movementService.findAllMovements();
+            List<MovementsModel> movements = movementService.findAllMovements(idProducto);
             return new ResponseEntity<List<MovementsModel>>(movements, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
@@ -52,6 +56,7 @@ public class MovementsController {
         }
     }
 
+    
     @PostMapping
     public ResponseEntity<?> postMovements(@RequestBody MovementsModel entity) {
         try {

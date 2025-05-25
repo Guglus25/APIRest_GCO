@@ -14,7 +14,6 @@ import com.apirestgco.apirest_gco.Models.ProductsModel;
 import com.apirestgco.apirest_gco.Services.ProductsService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +21,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/product")
+@CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Product Management", description = "Controllers Product")
 public class ProductsController {
     @Autowired
