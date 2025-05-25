@@ -26,5 +26,5 @@ public class ProductsModel {
     private Integer stock;
     private String categoria;
     private String codigo;
-    private Date fechaCreacion;
+    private Date fechaCreacion; 
 }

@@ -33,8 +33,7 @@ public class ProductsController {
     
     @GetMapping
     @Operation(summary = "", description = "Endpoint que trae los datos de la solicitud", tags = {
-            "Product Management" })
-    @Parameter(name = "id", description = "", example = "", required = true)
+            "Product Management" })    
     public ResponseEntity<?> getfindProduct() {
         try {
             List<ProductsModel> Products = productsService.findAllProduct();
@@ -88,7 +87,7 @@ public class ProductsController {
     public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
         try {
             productsService.deleteProducts(id);
-            return new ResponseEntity<String>("Fue eliminado", HttpStatus.OK);
+            return new ResponseEntity<String>( "Eliminado", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
                     HttpStatus.INTERNAL_SERVER_ERROR);

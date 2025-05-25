@@ -47,7 +47,7 @@ public class ProductsService implements IProductsService {
         if (Objects.nonNull(products.getCodigo()) && !"".equalsIgnoreCase(products.getCodigo())) {
             product.setCodigo(products.getCodigo());
         }
-        return productsRepository.save(product);
+        return productsRepository.save(products);
     }
 
 }

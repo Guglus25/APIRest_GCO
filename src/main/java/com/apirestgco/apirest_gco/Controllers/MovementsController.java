@@ -59,7 +59,7 @@ public class MovementsController {
             return new ResponseEntity<MovementsModel>(entity, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getCause().toString(),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+                       HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
