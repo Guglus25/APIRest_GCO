@@ -60,7 +60,7 @@ Se crea la documentación de la API implementando Swagger.
 @CrossOrigin(origins = "http://localhost:4200")
 @Tag(name = "Gestión de movimientos", description = "Controlador de Movimientos")
 ```
-* Tambien se agrega a cada uno de los Endpoin la siguiente codificacion
+* Tambien se agrega a cada uno de los Endpoint la siguiente codificacion
 ```bash
    @Operation(summary = "Consultar los movimientos del producto por id", description = "Este endpoint devuelve los registro de movimiento de un producto en especifico por id")
     @ApiResponses(value = {
