@@ -1,4 +1,4 @@
-# FrontGCO
+# API Rest GCO
 
 Este proyecto usa [Spring boot](https://spring.io/projects/spring-boot) version 3.4.6
 
